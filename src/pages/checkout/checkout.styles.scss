@@ -1,44 +1,126 @@
 .checkout-page {
-	width: 55%;
-	min-height: 90vh;
+	width: 100%;
+	min-height: 80vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	margin: 50px auto 0;
-	
+	margin-top: 10vh;
+
 	.checkout-header {
 		width: 100%;
-		padding: 10px 0;
 		display: flex;
 		justify-content: space-between;
 		border-bottom: 1px solid darkgrey;
-
+		font-size: 0.9em;
+	
 		.header-block {
 			text-transform: capitalize;
 			width: 23%;
+			margin-right: auto;
+			text-align: center;
 
+			&:first-child {
+				text-align: left;
+			}
 			&:last-child {
 				width: 8%; 
+				text-align: right;
 			}
 		}
+
 	}
 
 	.total {
-		margin-top: 30px;
+		margin-top: 20px;
 		margin-left: auto;
-		font-size: 36px;
+		font-size: 1.5em;
 	}
 
 	button {
+		margin-top: 20px;
 		margin-left: auto;
-		margin-top: 50px;
 	}
 
 	.test-warning {
 		text-align: center;
-		margin-top: 40px;
-		font-size: 24px;
+		margin-top: 20px;
+		font-size: 0.84em;
 		color: red;
 	}
+
+	@media (min-width: 425px) and (max-width: 599px) {
+			.checkout-header {
+				font-size: 1em;
+			}
+
+			.test-warning {
+				margin-top: 30px;
+				font-size: 1.2em;
+			}
+			
+		}
+
+		@media (min-width: 599px) and (max-width: 767px) {
+			.checkout-header {
+				width: 75%;
+				font-size: 1em;
+			}
+
+			.test-warning {
+				margin-top: 30px;
+				font-size: 1.1em;
+			}
+
+			.total, button {
+				margin-right: 10%;
+			}
+			
+		}
+
+		@media (min-width: 768px) and (max-width: 1023px) {
+			.checkout-header {
+				width: 75%;
+				font-size: 1.2em;
+			}
+
+			.total,button {
+				margin-right: 10%;
+				font-size: 1.7em;
+			}
+
+			button {
+				width: 4em;
+			}
+			
+			.test-warning {
+				margin-top: 40px;
+				font-size: 1.3em;
+			}
+		}
+
+		@media(min-width: 1024px) {
+			.checkout-header {
+				width: 45%;
+				font-size: 1.3em;
+			}
+
+			.total {
+				margin-top: 3%;
+				margin-right: 25%;
+				font-size: 1.8em;
+			}
+
+			button {
+				margin-right: 24%;
+				width: 10em;
+			}
+
+			.test-warning {
+				margin-top: 5%;
+				font-size: 1.3em;
+			}
+			
+		}
 	
 }

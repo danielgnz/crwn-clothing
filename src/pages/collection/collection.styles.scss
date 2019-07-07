@@ -8,9 +8,10 @@
 	}
 
 	.items {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
-		grid-gap: 10px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
 
 		& .collection-item {
 			margin-bottom: 30px;

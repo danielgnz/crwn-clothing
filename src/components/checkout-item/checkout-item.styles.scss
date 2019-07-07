@@ -4,7 +4,7 @@
 	min-height: 100px;
 	border-bottom: 1px solid darkgrey;
 	padding: 15px 0;
-	font-size: 20px;
+	font-size: 15px;
 	align-items: center;
 
 	.image-container {
@@ -21,22 +21,51 @@
 	.quantity,
 	.price {
 		width: 23%;
+		text-align: center;
+		font-size: 1.2em;
 	}
 
 	.quantity {
 		display: flex;
+		justify-content: center;
+		align-items: center;
 
 		.left-arrow,
 		.right-arrow {
 			cursor: pointer;
+			font-size: 0.8em;
 		}
 
 		.value {
-			margin: 0 10px;
+			margin: 0 6px;
+			font-size: 1.1em;
 		}
 	}
 
 	.remove-button {
 		cursor: pointer;
+		margin: 0 auto;
+	}
+
+	// Responsive Design ----------------
+
+	@media (min-width: 425px) and (max-width: 599px) {
+		.name, .quantity, .price {
+			font-size: 1.3em;
+		}
+	}
+
+	@media (min-width: 600px) and (max-width: 767px) {
+		width: 75%;
+	}
+	
+	@media (min-width: 768px) and (max-width: 1023px) {
+		width: 75%;
+		font-size: 1.2em
+	}
+
+	@media(min-width: 1024px) {
+		width: 45%;
+		font-size: 1.2em;
 	}
 }
