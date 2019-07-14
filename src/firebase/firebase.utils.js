@@ -43,6 +43,7 @@ import 'firebase/auth';
   firebase.initializeApp(config);
 
   export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+   
     const collectionRef = firestore.collection(collectionKey);
     const batch = firestore.batch();
     objectsToAdd.forEach(obj => {
@@ -54,6 +55,7 @@ import 'firebase/auth';
   }
 
  export const convertCollectionsSnapshotToMap = (collections) => {
+
     const transformedCollection = collections.docs.map(doc => {
       const { title, items } = doc.data();
 
@@ -66,6 +68,11 @@ import 'firebase/auth';
     });
 
     console.log(transformedCollection);
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {})
+
   }
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
