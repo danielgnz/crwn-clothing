@@ -4,7 +4,6 @@ import { createStructuredSelector } from 'reselect';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-import { auth } from '../../firebase/firebase.utils';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 
@@ -13,6 +12,7 @@ import CartIcon from '../cart-icon/cart-icon.component';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectMenuOpen } from '../../redux/menu/menu.selectors';
+import { signOutStart } from '../../redux/user/user.actions';
 
 import { 
 	HeaderContainer, 
@@ -51,7 +51,7 @@ class Header extends React.Component {
 		const breakpoints = {
 			mobile: 600,
 		};
-		const { currentUser, hidden } = this.props;
+		const { currentUser, hidden, signOutStart } = this.props;
 		const { isMenuOpen } = this.state;
 
 		return (
@@ -73,9 +73,7 @@ class Header extends React.Component {
 					currentUser ? (
 					<OptionLink 
 						as='div' 
-						onClick={() => {
-							auth.signOut()
-						}} 
+						onClick={signOutStart}
 						>
 							SIGN OUT
 					</OptionLink> )
@@ -113,10 +111,14 @@ const mapStateToProps = createStructuredSelector({
 	// isMenuOpen: selectMenuOpen
 });
 
+const mapDispatchToProps = dispatch => ({
+	signOutStart: () => dispatch(signOutStart())
+})
+
 // const mapDispatchToProps = dispatch => ({
 // 	closeMenu: () => dispatch(closeMenu()),
 // 	openMenu: () => dispatch(openMenu()),
 // 	toggleMenu: () => dispatch(toggleMenu())
 // })
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

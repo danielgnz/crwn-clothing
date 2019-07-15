@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import CustomButton from '../../components/custom-button/custom-button.component';
 import { Link } from 'react-router-dom';
 
 export const SignInContainer = styled.div`
@@ -15,7 +14,7 @@ export const SignInContainer = styled.div`
 	}
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
 
 `;
 

@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actions';
 
 import { 
 	SignInContainer, 
@@ -25,15 +26,10 @@ class SignInMobile extends React.Component {
 
 	handleSubmit = async event => {
 		event.preventDefault();
-
+		const { emailSignInStart } = this.props;
 		const { email, password } = this.state;
 
-		try {
-			await auth.signInWithEmailAndPassword(email, password);
-			this.setState({ email: '', password: '' });
-		} catch (error) {
-			throw new Error('Something went wrong')
-		}
+		emailSignInStart(email, password);
 	}
 
 	handleChange = (event) => {
@@ -43,6 +39,8 @@ class SignInMobile extends React.Component {
 	}
 
 	render() {
+		const { googleSignInStart } = this.props;
+		
 		return (
 			<SignInContainer>
 				
@@ -77,7 +75,7 @@ class SignInMobile extends React.Component {
 
 						<CustomButton type="submit"> Sign In</CustomButton>
 						<span>Or, you can:</span>
-						<CustomButton type="submit" onClick={signInWithGoogle} isGoogleSignIn> Sign In with Google</CustomButton>
+						<CustomButton type="button" onClick={googleSignInStart} isGoogleSignIn> Sign In with Google</CustomButton>
 					
 					</ButtonsContainer>
 
@@ -92,4 +90,9 @@ class SignInMobile extends React.Component {
 	}
 }
 
-export default SignInMobile;
+const mapDispatchToProps = dispatch => ({
+	googleSignInStart: () => dispatch(googleSignInStart()),
+	emailSignInStart: (email, password) => dispatch(emailSignInStart({ email, password }))
+})
+
+export default connect(null, mapDispatchToProps)(SignInMobile);

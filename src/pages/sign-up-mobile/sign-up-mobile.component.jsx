@@ -1,15 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { signUpStart } from '../../redux/user/user.actions';
 
 import { 
 	SignInContainer, 
 	FormInputWrapper, 
 	ButtonsContainer, 
-	RedirectLink 
 } from './sign-up-mobile.styles';
 
 class SignUpMobile extends React.Component {
@@ -26,7 +26,7 @@ class SignUpMobile extends React.Component {
 
 	handleSubmit = async event => {
 		event.preventDefault();
-
+		const { signUpStart } = this.props;
 		const { displayName, email, password, confirmPassword } = this.state;
 
 		if(password !== confirmPassword) {
@@ -34,21 +34,14 @@ class SignUpMobile extends React.Component {
 			return;
 		}
 		
-		try {
-			const { user } = await auth.createUserWithEmailAndPassword(email, password);
+		signUpStart(email, password, displayName);
 
-			await createUserProfileDocument(user, { displayName });
-
-			this.setState({
-				displayName: '',
-				email: '',
-				password: '',
-				confirmPassword: ''
-			});
-
-		} catch(error) {
-			console.error(error);
-		}
+		this.setState({
+			displayName: '',
+			email: '',
+			password: '',
+			confirmPassword: ''
+		});
 	}
 
 	handleChange = event => {
@@ -60,7 +53,7 @@ class SignUpMobile extends React.Component {
 
 
 	render() {
-		const { displayName, email, confirmPassword } = this.state;
+		const { displayName, email, password, confirmPassword } = this.state;
 		return (
 			<SignInContainer>
 				
@@ -94,6 +87,17 @@ class SignUpMobile extends React.Component {
 					 <FormInputWrapper>
 						<FormInput
 						 	type="password"
+							name="password"
+							value={password}
+							onChange={this.handleChange}
+							label='Password'
+							required
+						 />
+					 </FormInputWrapper>
+
+					 <FormInputWrapper>
+						<FormInput
+						 	type="password"
 							name="confirmPassword"
 							value={confirmPassword}
 							onChange={this.handleChange}
@@ -115,4 +119,8 @@ class SignUpMobile extends React.Component {
 	}
 }
 
-export default SignUpMobile;
+const mapDispatchToProps = dispatch => ({
+	signUpStart: (email, password, displayName) => dispatch(signUpStart({ email, password, displayName }))
+})
+
+export default connect(null, mapDispatchToProps)(SignUpMobile);
