@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
@@ -17,62 +17,33 @@ import { checkUserSession } from './redux/user/user.actions';
 
 import { createStructuredSelector } from 'reselect';
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
+export const App = ({checkUserSession, currentUser}) => {
 
-  componentDidMount() {
-    const { checkUserSession } = this.props;
-    checkUserSession();
+  useEffect(() => checkUserSession, [checkUserSession]);
 
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    //    if(userAuth) {
-    //       const userRef = await createUserProfileDocument(userAuth);
-
-    //       userRef.onSnapshot(snapshot => {
-    //         setCurrentUser({
-    //           id: snapshot.id,
-    //           ...snapshot.data()
-    //         })
-    //       })
-    //    }
-    //    else {
-    //     setCurrentUser(userAuth);
-    //    }
-    // })
-
-    
+  const breakpoints = {
+      desktop: 1024,
   }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
-    const breakpoints = {
-       desktop: 1024,
-    }
-    const { currentUser } = this.props; 
-    return (
-      <div>
-      	<Header />
-      	<Switch>
-        		<Route exact path='/' component={HomePage} />
-      		  <Route path='/shop' component={ShopPage} />
-            <Route exact path ='/checkout' component={CheckoutPage} />
-      		  <Route exact path='/signin' 
-              render={
-                  () => currentUser 
-                  ? (<Redirect to='/' />) 
-                  : (window.innerWidth >= breakpoints.desktop 
-                     ? <SignInAndSignUpPage />
-                     : <SignInMobile/>
-                     )
-                }/>
-           <Route exact path ='/signup-mobile' component={SignUpMobile} />
-      	</Switch>
-      </div>
-    );
-}
+  return (
+    <div>
+      <Header />
+      <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/shop' component={ShopPage} />
+          <Route exact path ='/checkout' component={CheckoutPage} />
+          <Route exact path='/signin' 
+            render={
+                () => currentUser 
+                ? (<Redirect to='/' />) 
+                : (window.innerWidth >= breakpoints.desktop 
+                    ? <SignInAndSignUpPage />
+                    : <SignInMobile/>
+                    )
+              }/>
+          <Route exact path ='/signup-mobile' component={SignUpMobile} />
+      </Switch>
+    </div>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
